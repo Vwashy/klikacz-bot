@@ -1,18 +1,24 @@
 from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
-import time
+import chromedriver_autoinstaller
 
-# Konfiguracja przeglądarki (w trybie headless, aby działała w tle)
+# Instalacja odpowiedniego ChromeDriver
+chromedriver_autoinstaller.install()
+
+# Opcje Chrome
 options = Options()
-options.add_argument('--headless')
-options.add_argument('--no-sandbox')
-options.add_argument('--disable-dev-shm-usage')
+options.add_argument("--headless")  # Uruchom Chrome w trybie headless
+options.add_argument("--no-sandbox")
+options.add_argument("--disable-dev-shm-usage")
 
-# Utworzenie instancji WebDriver
+# Inicjalizacja WebDriver
 driver = webdriver.Chrome(options=options)
 
-# Otwórz stronę logowania Disboard
-driver.get("https://disboard.org/pl/dashboard/servers")
+# Twoja logika bota
+driver.get('https://www.example.com')
+
 
 # Czekaj na załadowanie strony
 time.sleep(3)
