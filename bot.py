@@ -1,26 +1,25 @@
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
-from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
-from webdriver_manager.chrome import ChromeDriverManager  # Importujemy webdriver_manager
+import chromedriver_autoinstaller
 import time
 
-# Używamy webdriver_manager do automatycznego pobrania odpowiedniego chromedriver
-driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))  # Zmieniliśmy tutaj
+# Automatycznie zainstaluj odpowiednią wersję ChromeDriver
+chromedriver_autoinstaller.install()
 
-# Opcje Chrome
+# Opcje dla przeglądarki Chrome
 options = Options()
 options.add_argument("--headless")  # Uruchom Chrome w trybie headless
 options.add_argument("--no-sandbox")
 options.add_argument("--disable-dev-shm-usage")
 
-# Przypisz opcje do instancji drivera
-driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)  # Zmieniliśmy tutaj
+# Stwórz instancję drivera
+driver = webdriver.Chrome(options=options)
 
-# Odwiedź stronę logowania na Disboard
-driver.get('https://disboard.org/pl/dashboard/servers?')  # Zmiana tutaj
+# Odwiedź stronę
+driver.get('https://disboard.org/pl/dashboard/servers?')
 
-# Czekaj na załadowanie strony
+# Czekaj chwilę, aby strona się załadowała
 time.sleep(3)
 
 # Dodaj ciasteczka (wklej ciasteczka, które skopiowałeś)
