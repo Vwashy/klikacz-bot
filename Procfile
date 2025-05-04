@@ -1,7 +1,24 @@
-apt-get update && apt-get install -y google-chrome-stable
-# Install necessary libraries for headless Chrome
-apt-get update
-apt-get install -y libx11-dev libxcomposite-dev libxrandr-dev libxi6 libgconf-2-4 libnss3 libnss3-dev libasound2 libatk-bridge2.0-0 libatk1.0-0 libgtk-3-0
+FROM python:3.11-slim
 
-# Now run the bot
-python bot.py
+# Instalacja zależności systemowych i Google Chrome
+RUN apt-get update && apt-get install -y \
+    wget gnupg2 curl unzip \
+    fonts-liberation libappindicator3-1 libasound2 \
+    libatk-bridge2.0-0 libatk1.0-0 libcups2 \
+    libdbus-1-3 libgdk-pixbuf2.0-0 libnspr4 libnss3 \
+    libx11-xcb1 libxcomposite1 libxdamage1 libxrandr2 \
+    xdg-utils libgbm1 libgtk-3-0
+
+RUN wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb \
+    && dpkg -i google-chrome-stable_current_amd64.deb || apt-get install -f -y
+
+# Ustawienie katalogu roboczego
+WORKDIR /app
+COPY . .
+
+# Instalacja zależności Pythona
+RUN pip install --upgrade pip
+RUN pip install -r requirements.txt
+
+# Domyślne polecenie
+CMD ["python", "bot.py"]
