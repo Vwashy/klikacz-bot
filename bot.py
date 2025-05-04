@@ -2,10 +2,11 @@ from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
-import chromedriver_autoinstaller
+from webdriver_manager.chrome import ChromeDriverManager  # Importujemy webdriver_manager
+import time
 
-# Instalacja odpowiedniego ChromeDriver
-chromedriver_autoinstaller.install()
+# Używamy webdriver_manager do automatycznego pobrania odpowiedniego chromedriver
+driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))  # Zmieniliśmy tutaj
 
 # Opcje Chrome
 options = Options()
@@ -13,12 +14,11 @@ options.add_argument("--headless")  # Uruchom Chrome w trybie headless
 options.add_argument("--no-sandbox")
 options.add_argument("--disable-dev-shm-usage")
 
-# Inicjalizacja WebDriver
-driver = webdriver.Chrome(options=options)
+# Przypisz opcje do instancji drivera
+driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)  # Zmieniliśmy tutaj
 
-# Twoja logika bota
-driver.get('https://www.example.com')
-
+# Odwiedź stronę logowania na Disboard
+driver.get('https://disboard.org/pl/dashboard/servers?')  # Zmiana tutaj
 
 # Czekaj na załadowanie strony
 time.sleep(3)
@@ -44,7 +44,7 @@ driver.refresh()
 time.sleep(3)
 
 # Zlokalizuj przycisk "Bump" (za pomocą selektora CSS)
-button = driver.find_element_by_css_selector("a.button.button-bump.is-dark")
+button = driver.find_element(By.CSS_SELECTOR, "a.button.button-bump.is-dark")
 
 # Jeśli przycisk jest dostępny (nie jest zablokowany), kliknij go
 if button.is_enabled():
